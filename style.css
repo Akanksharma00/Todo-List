@@ -1,3 +1,114 @@
 body{
-    background-color: aquamarine;
+    background-image: url('background.jpg');
+}
+
+.header{
+    margin: auto;
+    width: 70%;
+    background-color: black;
+    color: white;
+    text-shadow: 2px 3px #888888;
+    text-align: center;
+    opacity: 0.95;
+    font-size: 26px;
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 4px;
+}
+
+#heading{
+    padding:3px;
+}
+
+.parent-section{
+    margin: auto;
+    background-color: black;
+    opacity: 0.95;
+    width: 70%;
+    height: 500px;
+    padding: 10px;
+}
+
+.form-section{
+    /* border: 2px solid white; */
+    padding: 10px;
+}
+
+#form-input{
+    width: 70%;
+    height: 30px;
+    font-size: 20px;
+    font-family: cursive;
+}
+
+#submit-btn{
+    font-family:cursive;
+    width: 20%;
+    height: 30px;
+    border-radius: 8px;
+    font-size: 18px;
+    padding: 2px;
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    margin-left: 20px;
+    /* text-shadow: 2px 2px #666666; */
+    border: 1px solid rgb(255, 255, 255);
+    box-shadow: 4px 4px rgb(151, 151, 151,0.5);
+}
+
+.tasks{
+    /* border:2px solid white; */
+    padding: 5px;
+    text-decoration: none;
+    background-color: black !important;
+}
+
+.edit-btn{
+    background-color: yellow;
+    float:right;
+    width: 30px;
+    height: 30px; 
+    background-image: url('editIcon.jpg');
+}
+
+.del-btn{
+    background-color: red;
+    float:right;
+    height: 30px;
+    width: 30px;
+    background-image: url('delete.jpg');
+}
+
+.item{
+    /* list-style: none; */
+    color:black;
+    font-family: cursive;
+    list-style: none;
+    background-color: seashell;
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: black;
+    font-family: cursive;
+    font-weight: bold;
+    padding-left: 8px;
+}
+
+.change-btn{
+    width: 30px;
+    height: 30px;
+    background-image: url('change.jpg');
+}
+
+.cancel-btn{
+    height: 30px;
+    width: 30px;
+    background-image: url('delete.jpg');
+}
+
+.editText{
+    height:25px;
+    width:500px;
+    font-family: cursive;
+    font-size: 18px;
 }

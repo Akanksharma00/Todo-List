@@ -2,10 +2,24 @@
 <html>
     <head>
         <title>Todo List</title>
+        <link href="style.css" rel="stylesheet"/>
+
     </head>
     <body>
-        <header>
-            <h1>ToDo List</h1>
+        <header class="header">
+            <h1 id="heading">TODO LIST</h1>
         </header>
+        <section class="parent-section">
+            <form  class="form-section">
+                <div>
+                    <input type="text" placeholder="Enter Task" id="form-input"/>
+                    <input type="submit" id="submit-btn" value="Add" />
+                </div>
+            </form>
+            <ul class="tasks">
+            </ul>
+        </section>
+
+        <script src="main.js"></script>
     </body>
 </html>
