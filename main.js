@@ -1,11 +1,12 @@
 const submitBtn = document.querySelector('#submit-btn');
 const input = document.querySelector('#form-input');
 const list = document.querySelector('.tasks');
+const searchBtn = document.querySelector('#search-btn');
 
 submitBtn.addEventListener('click',addItem);
 list.addEventListener('click',deleteItem);
 list.addEventListener('click',editItem);
-list.addEventListener('click',completedTask);
+searchBtn.addEventListener('click',searchItem);
 
 //Add Item
 function addItem(e){
@@ -48,23 +49,35 @@ function deleteItem(e){
 function editItem(e){
     const item = e.target.parentElement;
     if(e.target.classList.contains('edit-btn')){
-        const editForm = document.createElement('form');
-        const editText = document.createElement('input');
-        editText.setAttribute('class','editText');
-        editText.setAttribute('value',e.target.parentElement.firstChild.textContent);
-        const changeBtn = document.createElement('button');
-        // changeBtn.textContent = 'Change';
-        changeBtn.setAttribute('class','change-btn');
-        const cancelBtn = document.createElement('button');
-        // cancelBtn.textContent = 'Cancel';
-        cancelBtn.setAttribute('class','cancel-btn');
-        editForm.appendChild(editText);
-        editForm.appendChild(changeBtn);
-        editForm.appendChild(cancelBtn);
-        e.target.parentElement.appendChild(editForm);
+        //Checks if no edit form is present then create a edit form  
+        if(!item.lastElementChild.classList.contains('edit-form')){
+            //create edit form
+            const editForm = document.createElement('form');
+            //create input field
+            const editText = document.createElement('input');
+            editText.setAttribute('class','editText');
+            //Adding value to be edited in input field
+            editText.setAttribute('value',e.target.parentElement.firstChild.textContent);
+            
+            //create change button
+            const changeBtn = document.createElement('button');
+            // changeBtn.textContent = 'Change';
+            changeBtn.setAttribute('class','change-btn');
 
-        item.addEventListener('click',changeValue);
-        item.addEventListener('click',cancelChange);        
+            //create cancel button
+            const cancelBtn = document.createElement('button');
+            // cancelBtn.textContent = 'Cancel';
+            cancelBtn.setAttribute('class','cancel-btn');
+
+            editForm.appendChild(editText);
+            editForm.appendChild(changeBtn);
+            editForm.appendChild(cancelBtn);
+            editForm.className = 'edit-form';
+            e.target.parentElement.appendChild(editForm);
+
+            item.addEventListener('click',changeValue);
+            item.addEventListener('click',cancelChange); 
+        }       
     }
 }
 
@@ -85,4 +98,23 @@ function changeValue(e){
         listItem.firstChild.textContent = form.firstChild.value;
         form.remove(form);
     }
+}
+
+//Search Item
+function searchItem(e){
+    e.preventDefault();
+    let searchString = document.querySelector('#search-input').value.toLowerCase();
+    let listItems = document.querySelectorAll('li');
+    Array.from(listItems).forEach(function(item){
+        // console.log(item);
+        const itemName = item.firstChild.textContent;
+        //indexOf() - returns the first occurance of substring 
+        if(itemName.toLowerCase().indexOf(searchString) != -1){
+            console.log('match');
+            item.style.display = 'block';
+        }else{
+            console.log('not matched');
+            item.style.display = 'none';
+        }
+    });
 }
