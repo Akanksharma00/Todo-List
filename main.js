@@ -8,6 +8,7 @@ list.addEventListener('click',deleteItem);
 list.addEventListener('click',editItem);
 searchBtn.addEventListener('click',searchItem);
 
+// var count = 0;
 //Add Item
 function addItem(e){
     e.preventDefault();
@@ -32,6 +33,10 @@ function addItem(e){
         delBtn.setAttribute('class','del-btn');
         item.appendChild(delBtn);
 
+        //Adding items to localStorage
+        localStorage.setItem(input.value,input.value); 
+        // count++;
+
         list.appendChild(item);
         input.value = '';
     }
@@ -42,6 +47,9 @@ function deleteItem(e){
     if(e.target.classList.contains('del-btn')){
         const itemToBeRemoved = e.target.parentElement;
         list.removeChild(itemToBeRemoved);
+
+        //Deleting from localStorage
+        localStorage.removeItem(e.target.parentElement.firstChild.textContent);
     }
 }
 
@@ -95,6 +103,11 @@ function changeValue(e){
     const form = e.target.parentElement;
     const listItem = e.target.parentElement.parentElement;
     if(e.target.classList.contains('change-btn')){
+        //Update value in localStorage
+        localStorage.removeItem(listItem.firstChild.textContent);
+        localStorage.setItem(form.firstChild.value,form.firstChild.value);
+
+        //updating value in front-end
         listItem.firstChild.textContent = form.firstChild.value;
         form.remove(form);
     }
@@ -118,3 +131,33 @@ function searchItem(e){
         }
     });
 }
+
+// console.log(Object.keys(localStorage))
+
+// read content from localStorage on page refresh
+document.addEventListener('DOMContentLoaded',(e)=>{
+    e.preventDefault();
+    const items = Object.keys(localStorage);
+    items.forEach((i)=>{
+        //Adding item to list
+        const item = document.createElement('li');
+        item.textContent = i;
+        item.className = 'item';
+
+        //Adding edit button for item
+        const editBtn = document.createElement('button');
+        editBtn.style.backgroundImage = 'editIcon.png';
+        editBtn.className = 'edit-btn';
+        item.appendChild(editBtn);
+
+        //Adding delete button for item
+        const delBtn = document.createElement('button');
+        delBtn.setAttribute('class','del-btn');
+        item.appendChild(delBtn);
+
+        list.appendChild(item);
+    });
+});
+
+
+
