@@ -8,38 +8,55 @@ list.addEventListener('click',deleteItem);
 list.addEventListener('click',editItem);
 searchBtn.addEventListener('click',searchItem);
 
-// var count = 0;
 //Add Item
 function addItem(e){
     e.preventDefault();
     if(input.value === ''){
         alert("Please enter some value");
     }else{
-        //Adding item to list
-        const item = document.createElement('li');
-        item.textContent = input.value;
-        item.className = 'item';
-
-        //Adding edit button for item
-        const editBtn = document.createElement('button');
-        // editBtn.textContent = 'Edit';
-        editBtn.style.backgroundImage = 'editIcon.png';
-        editBtn.className = 'edit-btn';
-        item.appendChild(editBtn);
-
-        //Adding delete button for item
-        const delBtn = document.createElement('button');
-        // delBtn.textContent = 'X';
-        delBtn.setAttribute('class','del-btn');
-        item.appendChild(delBtn);
-
         //Adding items to localStorage
-        localStorage.setItem(input.value,input.value); 
-        // count++;
+        // localStorage.setItem(input.value,input.value); 
+        
+        let obj = {
+            'task': input.value
+        }
 
-        list.appendChild(item);
-        input.value = '';
+        axios.post('https://crudcrud.com/api/3289a0e2599d4dfca65aee639258a3aa/taskList',obj)
+            .then(res => {
+                showTask(res.data);
+                // console.log(res.data);
+            })
+            .catch(err =>{
+                document.querySelector('.err-div').style.display = 'block';
+                setTimeout( e =>{
+                    document.querySelector('.err-div').style.display = 'none';
+                },5000);
+                console.log(err);
+            });
     }
+}
+
+function showTask(data){
+    //Adding item to list
+    const item = document.createElement('li');
+    item.textContent = data.task;
+    item.className = 'item';
+
+    //Adding edit button for item
+    const editBtn = document.createElement('button');
+    // editBtn.textContent = 'Edit';
+    editBtn.style.backgroundImage = 'editIcon.png';
+    editBtn.className = 'edit-btn';
+    item.appendChild(editBtn);
+
+    //Adding delete button for item
+    const delBtn = document.createElement('button');
+    // delBtn.textContent = 'X';
+    delBtn.setAttribute('class','del-btn');
+    item.appendChild(delBtn);
+
+    list.appendChild(item);
+        input.value = '';
 }
 
 //Delete Item
@@ -135,29 +152,52 @@ function searchItem(e){
 // console.log(Object.keys(localStorage))
 
 // read content from localStorage on page refresh
+// document.addEventListener('DOMContentLoaded',(e)=>{
+//     e.preventDefault();
+//     const items = Object.keys(localStorage);
+//     items.forEach((i)=>{
+//         //Adding item to list
+//         const item = document.createElement('li');
+//         item.textContent = i;
+//         item.className = 'item';
+
+//         //Adding edit button for item
+//         const editBtn = document.createElement('button');
+//         editBtn.style.backgroundImage = 'editIcon.png';
+//         editBtn.className = 'edit-btn';
+//         item.appendChild(editBtn);
+
+//         //Adding delete button for item
+//         const delBtn = document.createElement('button');
+//         delBtn.setAttribute('class','del-btn');
+//         item.appendChild(delBtn);
+
+//         list.appendChild(item);
+//     });
+// });
+
+//read content from api on page refresh
 document.addEventListener('DOMContentLoaded',(e)=>{
     e.preventDefault();
-    const items = Object.keys(localStorage);
-    items.forEach((i)=>{
-        //Adding item to list
-        const item = document.createElement('li');
-        item.textContent = i;
-        item.className = 'item';
-
-        //Adding edit button for item
-        const editBtn = document.createElement('button');
-        editBtn.style.backgroundImage = 'editIcon.png';
-        editBtn.className = 'edit-btn';
-        item.appendChild(editBtn);
-
-        //Adding delete button for item
-        const delBtn = document.createElement('button');
-        delBtn.setAttribute('class','del-btn');
-        item.appendChild(delBtn);
-
-        list.appendChild(item);
-    });
-});
+    axios.get('https://crudcrud.com/api/3289a0e2599d4dfca65aee639258a3aa/taskList')
+        .then(res => {
+            const item = res.data;
+            item.forEach((i)=>{
+                showTask(i);
+            })
+        })
+        .catch(err => console.log(err));
+})
 
 
+axios.get('https://crudcrud.com/api/3289a0e2599d4dfca65aee639258a3aa/taskList')
+.then(res=> {
+    const taskList = res.data;
+    taskList.forEach((t)=>{
+        if(t.task === 'hi'){
+            console.log(t.id);
+        }
+    })
+})
+.catch(err=> console.log(err));
 
