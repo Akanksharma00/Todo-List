@@ -21,7 +21,7 @@ function addItem(e){
             'task': input.value
         }
 
-        axios.post('https://crudcrud.com/api/3289a0e2599d4dfca65aee639258a3aa/taskList',obj)
+        axios.post('https://crudcrud.com/api/fb7e154af6a54ba191521391703cdb1c/taskList',obj)
             .then(res => {
                 showTask(res.data);
                 // console.log(res.data);
@@ -63,10 +63,24 @@ function showTask(data){
 function deleteItem(e){
     if(e.target.classList.contains('del-btn')){
         const itemToBeRemoved = e.target.parentElement;
-        list.removeChild(itemToBeRemoved);
+        const val = itemToBeRemoved.firstChild.textContent;
+        
+        axios.get('https://crudcrud.com/api/fb7e154af6a54ba191521391703cdb1c/taskList')
+            .then(res => {
+                const taskList = res.data;
+                taskList.forEach((t)=>{
+                    if(val === t.task){
+                        const id = t._id;
+                        axios.delete('https://crudcrud.com/api/fb7e154af6a54ba191521391703cdb1c/taskList/'+id)
+                            .then(res => list.removeChild(itemToBeRemoved))
+                            .catch(err => console.log(err));
+                    }
+                })
+            })
+            .catch(err => console.log(err));
 
         //Deleting from localStorage
-        localStorage.removeItem(e.target.parentElement.firstChild.textContent);
+        // localStorage.removeItem(e.target.parentElement.firstChild.textContent);
     }
 }
 
@@ -179,7 +193,7 @@ function searchItem(e){
 //read content from api on page refresh
 document.addEventListener('DOMContentLoaded',(e)=>{
     e.preventDefault();
-    axios.get('https://crudcrud.com/api/3289a0e2599d4dfca65aee639258a3aa/taskList')
+    axios.get('https://crudcrud.com/api/fb7e154af6a54ba191521391703cdb1c/taskList')
         .then(res => {
             const item = res.data;
             item.forEach((i)=>{
@@ -190,14 +204,15 @@ document.addEventListener('DOMContentLoaded',(e)=>{
 })
 
 
-axios.get('https://crudcrud.com/api/3289a0e2599d4dfca65aee639258a3aa/taskList')
-.then(res=> {
-    const taskList = res.data;
-    taskList.forEach((t)=>{
-        if(t.task === 'hi'){
-            console.log(t.id);
-        }
-    })
-})
-.catch(err=> console.log(err));
+// axios.get('https://crudcrud.com/api/fb7e154af6a54ba191521391703cdb1c/taskList')
+// .then(res=> {
+//     const taskList = res.data;
+//     taskList.forEach((t)=>{
+//         if(t.task === 'hi'){
+//             console.log(t.task);
+//         }
+//     })
+// })
+// .catch(err=> console.log(err));
+
 
