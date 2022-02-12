@@ -133,14 +133,35 @@ function changeValue(e){
     e.preventDefault();
     const form = e.target.parentElement;
     const listItem = e.target.parentElement.parentElement;
+    let val = listItem.firstChild.textContent;
+    
     if(e.target.classList.contains('change-btn')){
+        axios.get('https://crudcrud.com/api/fb7e154af6a54ba191521391703cdb1c/taskList')
+            .then(res => {
+                const taskList = res.data;
+                taskList.forEach((t)=>{
+                    if(t.task === val){
+                        const id = t._id;
+                        axios.put('https://crudcrud.com/api/fb7e154af6a54ba191521391703cdb1c/taskList/'+id,{
+                            task: form.firstChild.value
+                        })
+                            .then(res => {
+                                listItem.firstChild.textContent = form.firstChild.value;
+                                form.remove(form);
+                            })
+                            .catch(err => console.log(err));
+                    }
+                })
+            })
+
+
         //Update value in localStorage
-        localStorage.removeItem(listItem.firstChild.textContent);
-        localStorage.setItem(form.firstChild.value,form.firstChild.value);
+        // localStorage.removeItem(listItem.firstChild.textContent);
+        // localStorage.setItem(form.firstChild.value,form.firstChild.value);
 
         //updating value in front-end
-        listItem.firstChild.textContent = form.firstChild.value;
-        form.remove(form);
+        // listItem.firstChild.textContent = form.firstChild.value;
+        // form.remove(form);
     }
 }
 
@@ -204,15 +225,6 @@ document.addEventListener('DOMContentLoaded',(e)=>{
 })
 
 
-// axios.get('https://crudcrud.com/api/fb7e154af6a54ba191521391703cdb1c/taskList')
-// .then(res=> {
-//     const taskList = res.data;
-//     taskList.forEach((t)=>{
-//         if(t.task === 'hi'){
-//             console.log(t.task);
-//         }
-//     })
-// })
-// .catch(err=> console.log(err));
+
 
 
